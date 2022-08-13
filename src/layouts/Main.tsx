@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
 
-import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
 interface Props {
@@ -9,14 +8,14 @@ interface Props {
 }
 
 const Main: React.FC<Props> = (props) => (
-  <div className="w-full px-1 font-jetbrains text-gray-700 antialiased">
+  <div className="w-full font-jetbrains text-gray-700 antialiased">
     {props.meta}
 
     <Navbar />
 
-    <main>{props.children}</main>
+    <main className="h-full bg-zinc-900">{props.children}</main>
 
-    <Footer />
+    {/* <Footer /> */}
   </div>
 );
 
