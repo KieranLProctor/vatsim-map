@@ -1,8 +1,8 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 
+import TabButtons from '@/components/_Data/TabButtons';
 import Meta from '@/components/Meta';
-import TabButtons from '@/components/P_Data/TabButtons';
 import Main from '@/layouts/Main';
 
 interface Props {}

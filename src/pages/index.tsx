@@ -20,9 +20,7 @@ const Index: NextPage<Props> = () => {
         />
       }
     >
-      {/* <div className="px-6 mx-auto mb-6 max-w-site desktop:px-16"> */}
       <Map />
-      {/* </div> */}
     </Main>
   );
 };
