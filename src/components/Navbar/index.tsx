@@ -5,7 +5,7 @@ interface Props {}
 
 const index: React.FC<Props> = () => {
   return (
-    <header className="z-10 flex-none bg-black pt-8 tablet:py-8">
+    <header className="z-10 flex-none bg-black pt-8 tablet:py-6">
       <div className="mx-auto max-w-site px-8 leading-loose tablet:flex tablet:items-stretch tablet:px-16 tablet:leading-none">
         <a
           className="mb-8 block h-8 w-20 shrink-0 tablet:mb-0 tablet:h-auto tablet:w-44"
