@@ -1,22 +1,17 @@
 import 'leaflet/dist/leaflet.css';
 
 import React from 'react';
-import { MapContainer, Marker, TileLayer } from 'react-leaflet';
-import { useAsync } from 'react-use';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
-import { getAllLiveFlights } from '@/utils/Endpoints';
+import PlaneMarker from '@/layouts/PlaneMarker';
 
-interface Props {}
+import type Flight from '../interfaces/Flight';
 
-const Map: React.FC<Props> = () => {
-  const flights = useAsync(getAllLiveFlights);
+interface Props {
+  flights: Flight[];
+}
 
-  // useEffect(() => {
-  //   if (flights.loading === true) return;
-
-  //   // console.log(flights.value);
-  // }, [flights]);
-
+const Map: React.FC<Props> = ({ flights }) => {
   return (
     <>
       <MapContainer
@@ -25,9 +20,9 @@ const Map: React.FC<Props> = () => {
         scrollWheelZoom={true}
         className="h-[100vh - 186px] tablet:h-[100vh - 76px]"
       >
-        {flights.loading === false
-          ? flights.value.map((flight: any) => (
-              <Marker key={flight.cid} position={[flight.lat, flight.lon]} />
+        {flights.length > 0
+          ? flights.map((flight: any) => (
+              <PlaneMarker key={flight.cid} flight={flight} />
             ))
           : null}
 

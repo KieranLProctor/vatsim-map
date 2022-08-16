@@ -1,8 +1,12 @@
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
+import { useAsync } from 'react-use';
 
+import type Flight from '@/components/interfaces/Flight';
 import Meta from '@/components/Meta';
 import Main from '@/layouts/Main';
+import { getAllLiveFlights } from '@/utils/Endpoints';
 
 interface Props {}
 
@@ -11,6 +15,25 @@ const Map = dynamic(import('@/components/Map/index'), {
 });
 
 const Index: NextPage<Props> = () => {
+  const [allFlights, setAllFlights] = useState<Flight[]>([]);
+  const flightsRes = useAsync(getAllLiveFlights);
+
+  useEffect(() => {
+    if (flightsRes.loading === true) return;
+
+    if (flightsRes.value?.length === 0) return;
+
+    // const allFlightsArr = Object.entries(flightsRes.value).map((entry) => {
+    //   return { [entry[0]]: entry[1] };
+    // });
+
+    const allFlightsArr: any = Object.entries(flightsRes.value).map(
+      (entry) => entry[1]
+    );
+
+    setAllFlights(allFlightsArr);
+  }, [flightsRes]);
+
   return (
     <Main
       meta={
@@ -20,7 +43,7 @@ const Index: NextPage<Props> = () => {
         />
       }
     >
-      <Map />
+      <Map flights={allFlights} />
     </Main>
   );
 };
