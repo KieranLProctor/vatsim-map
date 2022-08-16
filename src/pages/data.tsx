@@ -10,6 +10,10 @@ interface Props {}
 const Data: NextPage<Props> = () => {
   const [selectedTab, setSelectedTab] = useState<string>('FLIGHTS');
 
+  // Flights, ATC, Airlines, Aircraft.
+  // const flights = useAsync(getAllLiveFlights, [selectedTab]);
+  // const atc = useAsync(getAllLocals, [selectedTab]);
+
   return (
     <Main
       meta={

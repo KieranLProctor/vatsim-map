@@ -17,13 +17,15 @@
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.2",
+    "axios": "^0.27.2",
     "framer-motion": "^7.1.1",
     "leaflet": "^1.8.0",
     "next": "^12.1.5",
     "next-seo": "^5.4.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-leaflet": "^4.0.1"
+    "react-leaflet": "^4.0.1",
+    "react-use": "^17.4.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.4",
