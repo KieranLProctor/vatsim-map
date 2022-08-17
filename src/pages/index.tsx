@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { useAsync } from 'react-use';
 
-import type Flight from '@/components/interfaces/Flight';
 import Meta from '@/components/Meta';
+import type Flight from '@/interfaces/Flight';
 import Main from '@/layouts/Main';
 import { getAllLiveFlights } from '@/utils/Endpoints';
 
