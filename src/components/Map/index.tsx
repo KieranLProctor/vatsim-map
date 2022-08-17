@@ -21,7 +21,7 @@ const Map: React.FC<Props> = ({ flights }) => {
       >
         {flights.length > 0
           ? flights.map((flight: any) => (
-              <AircraftMarker key={flight.cid} flight={flight} />
+              <AircraftMarker key={flight.cid} data={flight} />
             ))
           : null}
 

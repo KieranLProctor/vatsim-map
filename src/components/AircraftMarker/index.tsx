@@ -1,36 +1,43 @@
-import 'leaflet/dist/leaflet.css';
-
-import { icon } from 'leaflet';
-import React from 'react';
+import L from 'leaflet';
+import { useEffect, useState } from 'react';
 import { Marker } from 'react-leaflet';
 
 import type Flight from '@/interfaces/Flight';
 
 interface Props {
-  flight: Flight;
+  data: Flight;
 }
 
-const AircraftMarker: React.FC<Props> = ({ flight }) => {
-  // const updateMarker = (marker) => {
-  //   if (marker) {
-  //     if (flight.hdg) {
-  //       marker.leafletElement.setRotationAngle(flight.hdg);
-  //       marker.leafletElement.setRotationOrigin('center');
-  //     }
+const ICON = L.icon({
+  iconSize: [25, 25],
+  // popupAnchor: [2, -20],
+  iconUrl: '/assets/images/icons/aircraft/A320.png',
+});
 
-  //     console.log(marker);
-  //   }
-  // };
+const AircraftMarker: React.FC<Props> = ({ data }) => {
+  const { lat, lon, hdg } = data;
+  const [prevPos, setPrevPos] = useState([lat, lon]);
+  const [currentHdg, setCurrentHdg] = useState(hdg);
+
+  useEffect(() => {
+    if (prevPos[1] !== lon && prevPos[0] !== lat) {
+      setPrevPos([lat, lon]);
+      setCurrentHdg(hdg);
+    }
+
+    console.log(currentHdg);
+  }, [data]);
 
   return (
-    <Marker
-      // ref={(el) => updateMarker(el)}
-      icon={icon({
-        iconUrl: '/assets/images/icons/aircraft/A320.png',
-        iconSize: [24, 24],
-      })}
-      position={[flight.lat, flight.lon]}
-    />
+    // This works but unable to push to Github as npm run build-types errors.
+    // <LeafletTrackingMarker
+    //   icon={ICON}
+    //   rotationAngle={currentHdg}
+    //   position={[lat, lon]}
+    //   previousPosition={prevPos}
+    //   duration={1}
+    // />
+    <Marker position={[lat, lon]} icon={ICON} />
   );
 };
 

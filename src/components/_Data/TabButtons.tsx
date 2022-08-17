@@ -16,7 +16,7 @@ const TabButtons: React.FC<Props> = ({ selectedTab, setSelectedTab }) => {
           type="button"
           className={`${
             selectedTab.toUpperCase() === tab.toUpperCase()
-              ? 'border-zinc-600 bg-zinc-800 border text-gray-200'
+              ? 'border border-zinc-600 bg-zinc-800 text-gray-200'
               : 'text-gray-400'
           } px-3 py-2 text-sm hover:text-gray-200`}
           onClick={() => setSelectedTab(tab.toUpperCase())}

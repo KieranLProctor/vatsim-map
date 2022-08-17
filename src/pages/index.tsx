@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
-import { useAsync } from 'react-use';
 
 import Meta from '@/components/Meta';
 import type Flight from '@/interfaces/Flight';
@@ -16,23 +15,42 @@ const Map = dynamic(import('@/components/Map/index'), {
 
 const Index: NextPage<Props> = () => {
   const [allFlights, setAllFlights] = useState<Flight[]>([]);
-  const flightsRes = useAsync(getAllLiveFlights);
+  // const flightsRes = useAsync(getAllLiveFlights);
 
-  useEffect(() => {
-    if (flightsRes.loading === true) return;
+  const pocessFlightData = async () => {
+    const res = await getAllLiveFlights();
 
-    if (flightsRes.value?.length === 0) return;
+    if (!res) return;
 
-    // const allFlightsArr = Object.entries(flightsRes.value).map((entry) => {
-    //   return { [entry[0]]: entry[1] };
-    // });
-
-    const allFlightsArr: any = Object.entries(flightsRes.value).map(
-      (entry) => entry[1]
-    );
+    const allFlightsArr: any = Object.entries(res).map((entry) => entry[1]);
 
     setAllFlights(allFlightsArr);
-  }, [flightsRes]);
+  };
+
+  useEffect(() => {
+    pocessFlightData();
+
+    const interval = setInterval(async () => {
+      pocessFlightData();
+    }, 30000); // 30 seconds.
+    return () => clearInterval(interval);
+  }, []);
+
+  // useEffect(() => {
+  //   if (flightsRes.loading === true) return;
+
+  //   if (flightsRes.value?.length === 0) return;
+
+  //   // const allFlightsArr = Object.entries(flightsRes.value).map((entry) => {
+  //   //   return { [entry[0]]: entry[1] };
+  //   // });
+
+  //   const allFlightsArr: any = Object.entries(flightsRes.value).map(
+  //     (entry) => entry[1]
+  //   );
+
+  //   setAllFlights(allFlightsArr);
+  // }, [flightsRes]);
 
   return (
     <Main
