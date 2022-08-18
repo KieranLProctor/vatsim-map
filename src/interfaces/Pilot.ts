@@ -14,7 +14,7 @@ export default interface Pilot {
   heading: number;
   qnh_i_hg: number;
   qnh_mb: number;
-  flight_plan: FlightPlan;
+  flight_plan?: FlightPlan;
   logon_time: string;
   last_updated: string;
 }
