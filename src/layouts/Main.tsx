@@ -13,7 +13,7 @@ const Main: React.FC<Props> = (props) => (
 
     <Navbar />
 
-    <main className="h-full bg-zinc-900">{props.children}</main>
+    <main>{props.children}</main>
 
     {/* <Footer /> */}
   </div>

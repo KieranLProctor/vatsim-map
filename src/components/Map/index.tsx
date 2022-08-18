@@ -21,7 +21,10 @@ const Map: React.FC<Props> = ({ pilots }) => {
       >
         {pilots.length > 0
           ? pilots.map((pilot: Pilot) => (
-              <AircraftMarker key={pilot.cid} data={pilot} />
+              <AircraftMarker
+                key={`${pilot.callsign}_${pilot.cid}`}
+                data={pilot}
+              />
             ))
           : null}
 

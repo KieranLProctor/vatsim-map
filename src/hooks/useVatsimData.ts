@@ -6,7 +6,7 @@ const FETCHER = (args: string) => fetch(args).then((res) => res.json());
 
 const useVatsimData = (): VatsimData => {
   const { data, error } = useSWR('/api/vatsim-data', FETCHER, {
-    refreshInterval: 15000,
+    refreshInterval: 5000,
   });
 
   return {

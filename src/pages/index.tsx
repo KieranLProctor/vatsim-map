@@ -12,11 +12,9 @@ const MapDynamic = dynamic(import('@/components/Map/index'), {
 });
 
 const Index: NextPage<Props> = () => {
-  const { pilots, isLoading, isError } = useVatsimData();
+  const { pilots, isError } = useVatsimData();
 
-  console.log(pilots);
-
-  if (isLoading || isError) return <></>;
+  if (isError) console.error('Unable to load flights!');
 
   return (
     <Main
@@ -27,7 +25,7 @@ const Index: NextPage<Props> = () => {
         />
       }
     >
-      <MapDynamic pilots={pilots} />
+      <MapDynamic pilots={pilots ?? []} />
     </Main>
   );
 };

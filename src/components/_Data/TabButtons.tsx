@@ -5,7 +5,7 @@ interface Props {
   setSelectedTab: (value: any) => void; // This should be value: State but was returning undefined.
 }
 
-const TABS: string[] = ['Flights', 'ATC', 'Airlines', 'Aircraft'];
+const TABS: string[] = ['General', 'Pilots', 'Controllers', 'ATIS', 'Prefiles'];
 
 const TabButtons: React.FC<Props> = ({ selectedTab, setSelectedTab }) => {
   return (
