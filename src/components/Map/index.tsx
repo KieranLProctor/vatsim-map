@@ -4,13 +4,13 @@ import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import AircraftMarker from '@/components/AircraftMarker';
-import type Flight from '@/interfaces/Flight';
+import type Pilot from '@/interfaces/Pilot';
 
 interface Props {
-  flights: Flight[];
+  pilots: Pilot[];
 }
 
-const Map: React.FC<Props> = ({ flights }) => {
+const Map: React.FC<Props> = ({ pilots }) => {
   return (
     <>
       <MapContainer
@@ -19,9 +19,9 @@ const Map: React.FC<Props> = ({ flights }) => {
         scrollWheelZoom={true}
         className="h-[100vh - 186px] tablet:h-[100vh - 76px]"
       >
-        {flights.length > 0
-          ? flights.map((flight: any) => (
-              <AircraftMarker key={flight.cid} data={flight} />
+        {pilots.length > 0
+          ? pilots.map((pilot: Pilot) => (
+              <AircraftMarker key={pilot.cid} data={pilot} />
             ))
           : null}
 
