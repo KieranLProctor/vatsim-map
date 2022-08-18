@@ -1,7 +1,7 @@
 import axios from 'axios';
-import type { NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-const handler = async (res: NextApiResponse) => {
+const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
   await axios
     .request({
       method: 'GET',
