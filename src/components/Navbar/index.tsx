@@ -22,7 +22,7 @@ const Navbar: React.FC<Props> = () => {
               <li>
                 <a
                   href="/"
-                  className="text-lg text-gray-400 hover:text-gray-200"
+                  className="text-md text-gray-400 hover:text-gray-200"
                 >
                   Map
                 </a>
@@ -31,7 +31,7 @@ const Navbar: React.FC<Props> = () => {
               <li>
                 <a
                   href="/data"
-                  className="text-lg text-gray-400 hover:text-gray-200"
+                  className="text-md text-gray-400 hover:text-gray-200"
                 >
                   Data
                 </a>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import type Pilot from '@/interfaces/Pilot';
+import { searchData } from '@/utils/SearchData';
 
 interface Props {
   pilots: Pilot[];
@@ -8,7 +9,7 @@ interface Props {
 
 const PilotsTable: React.FC<Props> = ({ pilots }) => {
   const [allPilots] = useState<Pilot[]>(pilots);
-  const [filteredPilots] = useState<Pilot[]>(allPilots);
+  const [filteredPilots, setFilteredPilots] = useState<Pilot[]>(allPilots);
 
   return (
     <div className="relative overflow-x-auto">
@@ -37,37 +38,41 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
             id="table-search"
             className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-blue-500 focus:ring-blue-500 "
             placeholder="Search pilots..."
+            onChange={(event) => {
+              const results = searchData(event, allPilots);
+              setFilteredPilots(results);
+            }}
           />
         </div>
       </div>
       <table className="w-full border border-zinc-600 bg-zinc-800 text-left text-sm text-gray-400">
         <thead className="border border-zinc-600 text-gray-200">
           <tr>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Callsign
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Aircraft
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Departure
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Arrival
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Altitude
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Speed
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Transponder
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Pilot
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Logon Time
             </th>
           </tr>
@@ -77,7 +82,7 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
             <tr className="border-b border-zinc-600 bg-zinc-800">
               <th
                 scope="row"
-                className="whitespace-nowrap py-4 px-6 font-medium text-gray-200"
+                className="whitespace-nowrap px-6 py-4 font-medium text-gray-200"
                 colSpan={8}
               >
                 There are currently 0 pilots online!
@@ -92,28 +97,28 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                 >
                   <th
                     scope="row"
-                    className="whitespace-nowrap py-4 px-6 text-gray-200"
+                    className="whitespace-nowrap px-6 py-4 text-gray-200"
                   >
                     {pilot.callsign}
                   </th>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {pilot.flight_plan?.aircraft_faa}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {pilot.flight_plan?.departure}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {pilot.flight_plan?.arrival}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">{pilot.altitude}</td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">{pilot.altitude}</td>
+                  <td className="px-6 py-4 text-gray-200">
                     {pilot.groundspeed}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {pilot.transponder}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">{pilot.name}</td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">{pilot.name}</td>
+                  <td className="px-6 py-4 text-gray-200">
                     {pilot.logon_time}
                   </td>
                 </tr>

@@ -13,12 +13,7 @@ interface Props {
 const Map: React.FC<Props> = ({ pilots }) => {
   return (
     <>
-      <MapContainer
-        center={[51.505, -0.09]}
-        zoom={8}
-        scrollWheelZoom={true}
-        className="h-[100vh - 186px] tablet:h-[100vh - 76px]"
-      >
+      <MapContainer center={[51.505, -0.09]} zoom={8} scrollWheelZoom={true}>
         {pilots.length > 0
           ? pilots.map((pilot: Pilot) => (
               <AircraftMarker
