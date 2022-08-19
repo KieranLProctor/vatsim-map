@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import type Controller from '@/interfaces/Controller';
 import type Facility from '@/interfaces/Facility';
+import { searchData } from '@/utils/SearchData';
 
 interface Props {
   controllers: Controller[];
@@ -10,7 +11,8 @@ interface Props {
 
 const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
   const [allControllers] = useState<Controller[]>(controllers);
-  const [filteredControllers] = useState<Controller[]>(allControllers);
+  const [filteredControllers, setFilteredControllers] =
+    useState<Controller[]>(allControllers);
   // TODO: Add in button to toggle showing observers.
   // const [showingObs, setShowingObs] = useState<boolean>(false);
 
@@ -41,25 +43,29 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
             id="table-search"
             className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-blue-500 focus:ring-blue-500 "
             placeholder="Search controllers..."
+            onChange={(event) => {
+              const results = searchData(event, allControllers);
+              setFilteredControllers(results);
+            }}
           />
         </div>
       </div>
       <table className="w-full border border-zinc-600 bg-zinc-800 text-left text-sm text-gray-400">
         <thead className="border border-zinc-600 text-gray-200">
           <tr>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Callsign
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Position
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Frequency
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Controller
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Logon Time
             </th>
           </tr>
@@ -69,7 +75,7 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
             <tr className="border-b border-zinc-600 bg-zinc-800">
               <th
                 scope="row"
-                className="whitespace-nowrap py-4 px-6 font-medium text-gray-200"
+                className="whitespace-nowrap px-6 py-4 font-medium text-gray-200"
                 colSpan={5}
               >
                 There are currently 0 controllers online!
@@ -84,18 +90,18 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
                 >
                   <th
                     scope="row"
-                    className="whitespace-nowrap py-4 px-6 text-gray-200"
+                    className="whitespace-nowrap px-6 py-4 text-gray-200"
                   >
                     {controller.callsign}
                   </th>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {facilities[controller.facility]?.short}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {controller.frequency}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">{controller.name}</td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">{controller.name}</td>
+                  <td className="px-6 py-4 text-gray-200">
                     {controller.logon_time}
                   </td>
                 </tr>

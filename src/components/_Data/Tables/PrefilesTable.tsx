@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import type Prefile from '@/interfaces/Prefile';
+import { searchData } from '@/utils/SearchData';
 
 interface Props {
   prefiles: Prefile[];
@@ -8,7 +9,8 @@ interface Props {
 
 const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
   const [allPrefiles] = useState<Prefile[]>(prefiles);
-  const [filteredPrefiles] = useState<Prefile[]>(allPrefiles);
+  const [filteredPrefiles, setFilteredPrefiles] =
+    useState<Prefile[]>(allPrefiles);
 
   return (
     <div className="relative overflow-x-auto">
@@ -37,28 +39,32 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
             id="table-search"
             className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-blue-500 focus:ring-blue-500 "
             placeholder="Search prefiles..."
+            onChange={(event) => {
+              const results = searchData(event, allPrefiles);
+              setFilteredPrefiles(results);
+            }}
           />
         </div>
       </div>
       <table className="w-full border border-zinc-600 bg-zinc-800 text-left text-sm text-gray-400">
         <thead className="border border-zinc-600 text-gray-200">
           <tr>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Callsign
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Aircraft
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Departure
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Arrival
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Altitude
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="px-6 py-3">
               Speed
             </th>
           </tr>
@@ -68,7 +74,7 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
             <tr className="border-b border-zinc-600 bg-zinc-800">
               <th
                 scope="row"
-                className="whitespace-nowrap py-4 px-6 font-medium text-gray-200"
+                className="whitespace-nowrap px-6 py-4 font-medium text-gray-200"
                 colSpan={8}
               >
                 There are currently 0 pilots online!
@@ -83,23 +89,23 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
                 >
                   <th
                     scope="row"
-                    className="whitespace-nowrap py-4 px-6 text-gray-200"
+                    className="whitespace-nowrap px-6 py-4 text-gray-200"
                   >
                     {prefile.callsign}
                   </th>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {prefile.flight_plan?.aircraft_faa}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {prefile.flight_plan?.departure}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {prefile.flight_plan?.arrival}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {prefile.flight_plan?.altitude}
                   </td>
-                  <td className="py-4 px-6 text-gray-200">
+                  <td className="px-6 py-4 text-gray-200">
                     {prefile.flight_plan?.cruise_tas}
                   </td>
                 </tr>
