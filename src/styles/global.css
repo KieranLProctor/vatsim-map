@@ -9,5 +9,5 @@
 .leaflet-container {
   width: 100%;
   /* height: calc(100vh - 76px - 56px); */
-  height: calc(100vh - 76px);
+  height: calc(100vh - 64px);
 }
