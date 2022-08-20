@@ -1,18 +1,15 @@
 import React, { useRef, useState } from 'react';
 
-import type Controller from '@/interfaces/Controller';
-import type Facility from '@/interfaces/Facility';
+import type ATIS from '@/interfaces/ATIS';
 import { searchData } from '@/utils/SearchData';
 
 interface Props {
-  controllers: Controller[];
-  facilities: Facility[];
+  atis: ATIS[];
 }
 
-const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
-  const [allControllers] = useState<Controller[]>(controllers);
-  const [filteredControllers, setFilteredControllers] =
-    useState<Controller[]>(allControllers);
+const ATISTable: React.FC<Props> = ({ atis }) => {
+  const [allATIS] = useState<ATIS[]>(atis);
+  const [filteredATIS, setFilteredATIS] = useState<ATIS[]>(allATIS);
   const searchRef = useRef<any>(null);
   // TODO: Add in button to toggle showing observers.
   // const [showingObs, setShowingObs] = useState<boolean>(false);
@@ -43,11 +40,11 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
             type="text"
             id="table-search"
             className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-blue-500 focus:ring-blue-500 "
-            placeholder="Search controllers..."
+            placeholder="Search atis..."
             ref={searchRef}
             onChange={(event) => {
-              const results = searchData(event, allControllers);
-              setFilteredControllers(results);
+              const results = searchData(event, allATIS);
+              setFilteredATIS(results);
             }}
           />
         </div>
@@ -59,13 +56,16 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
               Callsign
             </th>
             <th scope="col" className="px-6 py-3">
-              Position
-            </th>
-            <th scope="col" className="px-6 py-3">
               Frequency
             </th>
             <th scope="col" className="px-6 py-3">
-              Controller
+              Code
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Text
+            </th>
+            <th scope="col" className="px-6 py-3">
+              ATIS
             </th>
             <th scope="col" className="px-6 py-3">
               Logon Time
@@ -73,42 +73,39 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
           </tr>
         </thead>
         <tbody>
-          {filteredControllers.length === 0 ? (
+          {filteredATIS.length === 0 ? (
             <tr className="border-b border-zinc-600 bg-zinc-800">
               <th
                 scope="row"
                 className="whitespace-nowrap px-6 py-4 text-center font-medium text-gray-200"
-                colSpan={5}
+                colSpan={6}
               >
                 {searchRef.current?.value.length > 0 ? (
                   <>There are 0 results for that search term!</>
                 ) : (
-                  <>There are currently 0 controllers online!</>
+                  <>There are currently 0 ATIS online!</>
                 )}
               </th>
             </tr>
           ) : (
             <>
-              {filteredControllers.map((controller: Controller) => (
+              {filteredATIS.map((_atis: ATIS) => (
                 <tr
                   className="border border-zinc-600 bg-zinc-800"
-                  key={`${controller.callsign}_${controller.cid}`}
+                  key={`${_atis.callsign}_${_atis.cid}`}
                 >
                   <th
                     scope="row"
                     className="whitespace-nowrap px-6 py-4 text-gray-200"
                   >
-                    {controller.callsign}
+                    {_atis.callsign}
                   </th>
+                  <td className="px-6 py-4 text-gray-200">{_atis.frequency}</td>
+                  <td className="px-6 py-4 text-gray-200">{_atis.atis_code}</td>
+                  <td className="px-6 py-4 text-gray-200">{_atis.text_atis}</td>
+                  <td className="px-6 py-4 text-gray-200">{_atis.name}</td>
                   <td className="px-6 py-4 text-gray-200">
-                    {facilities[controller.facility]?.short}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {controller.frequency}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">{controller.name}</td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {controller.logon_time}
+                    {_atis.logon_time}
                   </td>
                 </tr>
               ))}
@@ -120,4 +117,4 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
   );
 };
 
-export default ControllersTable;
+export default ATISTable;
