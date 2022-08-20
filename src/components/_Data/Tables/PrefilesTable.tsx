@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import type Prefile from '@/interfaces/Prefile';
 import { searchData } from '@/utils/SearchData';
@@ -11,6 +11,7 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
   const [allPrefiles] = useState<Prefile[]>(prefiles);
   const [filteredPrefiles, setFilteredPrefiles] =
     useState<Prefile[]>(allPrefiles);
+  const searchRef = useRef<any>(null);
 
   return (
     <div className="relative overflow-x-auto">
@@ -39,6 +40,7 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
             id="table-search"
             className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-blue-500 focus:ring-blue-500 "
             placeholder="Search prefiles..."
+            ref={searchRef}
             onChange={(event) => {
               const results = searchData(event, allPrefiles);
               setFilteredPrefiles(results);
@@ -74,10 +76,14 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
             <tr className="border-b border-zinc-600 bg-zinc-800">
               <th
                 scope="row"
-                className="whitespace-nowrap px-6 py-4 font-medium text-gray-200"
-                colSpan={8}
+                className="whitespace-nowrap px-6 py-4 text-center font-medium text-gray-200"
+                colSpan={6}
               >
-                There are currently 0 pilots online!
+                {searchRef.current?.value.length > 0 ? (
+                  <>There are 0 results for that search term!</>
+                ) : (
+                  <>There are currently 0 prefiles!</>
+                )}
               </th>
             </tr>
           ) : (
