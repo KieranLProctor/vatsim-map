@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Moment from 'react-moment';
 
 import type Pilot from '@/interfaces/Pilot';
 import { searchData } from '@/utils/SearchData';
@@ -125,7 +126,7 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                   </td>
                   <td className="px-6 py-4 text-gray-200">{pilot.name}</td>
                   <td className="px-6 py-4 text-gray-200">
-                    {pilot.logon_time}
+                    <Moment>{pilot.logon_time}</Moment>
                   </td>
                 </tr>
               ))}
