@@ -57,6 +57,10 @@ const Data: NextPage<Props> = () => {
                   />
                   <StatCard title="Total ATIS" value={atis.length} />
                 </dl>
+
+                <dl className="mt-8 grid grid-cols-1 gap-5 tablet:grid-cols-3">
+                  <StatCard title="Aircraft Split" value={100} />
+                </dl>
               </div>
             )}
 
