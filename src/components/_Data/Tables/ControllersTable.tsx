@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Moment from 'react-moment';
 
 import type Controller from '@/interfaces/Controller';
 import type Facility from '@/interfaces/Facility';
@@ -14,12 +15,12 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
   const [filteredControllers, setFilteredControllers] =
     useState<Controller[]>(allControllers);
   const searchRef = useRef<any>(null);
-  // TODO: Add in button to toggle showing observers.
-  // const [showingObs, setShowingObs] = useState<boolean>(false);
+  const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false);
+  const [showingOBS, setShowingOBS] = useState<boolean>(true);
 
   return (
     <div className="relative overflow-x-auto">
-      <div className="pb-4">
+      <div className="flex items-center justify-between pb-4">
         <label htmlFor="table-search" className="sr-only">
           Search
         </label>
@@ -42,7 +43,7 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
           <input
             type="text"
             id="table-search"
-            className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-blue-500 focus:ring-blue-500 "
+            className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-purple-500"
             placeholder="Search controllers..."
             ref={searchRef}
             onChange={(event) => {
@@ -50,6 +51,65 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
               setFilteredControllers(results);
             }}
           />
+        </div>
+
+        <div className="mt-6">
+          <div className="relative inline-block text-left">
+            <div>
+              <button
+                type="button"
+                className="inline-flex w-full justify-center border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-200 focus:border-purple-500"
+                onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+              >
+                Options
+                <svg
+                  className="ml-2 -mr-1 h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <div
+              className={`${
+                isOptionsOpen ? 'absolute' : 'hidden'
+              } right-0 mt-2 w-56 origin-top-right border border-zinc-600 bg-zinc-800`}
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="menu-button"
+              tabIndex={-1}
+            >
+              <div className="py-1" role="none">
+                <div className="relative flex items-start px-4 py-2">
+                  <div className="flex h-5 items-center">
+                    <input
+                      type="checkbox"
+                      id="showOBS"
+                      className="h-4 w-4 border border-zinc-600 text-purple-800 focus:ring-purple-500"
+                      checked={showingOBS}
+                      onClick={() => setShowingOBS(!showingOBS)}
+                    />
+                  </div>
+                  <div className="ml-3 text-sm">
+                    <label
+                      htmlFor="showOBS"
+                      className="font-medium text-gray-200"
+                    >
+                      Show Observers
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <table className="w-full border border-zinc-600 bg-zinc-800 text-left text-sm text-gray-400">
@@ -81,37 +141,46 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
                 colSpan={5}
               >
                 {searchRef.current?.value.length > 0 ? (
-                  <>There are 0 results for that search term!</>
+                  <span>There are 0 results for that search term!</span>
                 ) : (
-                  <>There are currently 0 controllers online!</>
+                  <span>There are currently 0 controllers online!</span>
                 )}
               </th>
             </tr>
           ) : (
             <>
-              {filteredControllers.map((controller: Controller) => (
-                <tr
-                  className="border border-zinc-600 bg-zinc-800"
-                  key={`${controller.callsign}_${controller.cid}`}
-                >
-                  <th
-                    scope="row"
-                    className="whitespace-nowrap px-6 py-4 text-gray-200"
+              {/* A bit hacky but it works. */}
+              {filteredControllers
+                .filter((x: Controller) =>
+                  showingOBS
+                    ? facilities[x.facility]?.short !== 'C3L'
+                    : facilities[x.facility]?.short !== 'OBS'
+                )
+                .map((controller: Controller) => (
+                  <tr
+                    className="border border-zinc-600 bg-zinc-800"
+                    key={`${controller.callsign}_${controller.cid}`}
                   >
-                    {controller.callsign}
-                  </th>
-                  <td className="px-6 py-4 text-gray-200">
-                    {facilities[controller.facility]?.short}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {controller.frequency}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">{controller.name}</td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {controller.logon_time}
-                  </td>
-                </tr>
-              ))}
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 text-gray-200"
+                    >
+                      {controller.callsign}
+                    </th>
+                    <td className="px-6 py-4 text-gray-200">
+                      {facilities[controller.facility]?.short}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      {controller.frequency}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      {controller.name}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      <Moment>{controller.logon_time}</Moment>
+                    </td>
+                  </tr>
+                ))}
             </>
           )}
         </tbody>

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Moment from 'react-moment';
 
 import type Pilot from '@/interfaces/Pilot';
 import { searchData } from '@/utils/SearchData';
@@ -88,9 +89,9 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                 colSpan={9}
               >
                 {searchRef.current?.value.length > 0 ? (
-                  <>There are 0 results for that search term!</>
+                  <span>There are 0 results for that search term!</span>
                 ) : (
-                  <>There are currently 0 pilots online!</>
+                  <span>There are currently 0 pilots online!</span>
                 )}
               </th>
             </tr>
@@ -125,7 +126,7 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                   </td>
                   <td className="px-6 py-4 text-gray-200">{pilot.name}</td>
                   <td className="px-6 py-4 text-gray-200">
-                    {pilot.logon_time}
+                    <Moment>{pilot.logon_time}</Moment>
                   </td>
                 </tr>
               ))}

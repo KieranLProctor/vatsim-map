@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import Moment from 'react-moment';
 
 import type ATIS from '@/interfaces/ATIS';
 import { searchData } from '@/utils/SearchData';
@@ -81,9 +82,9 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
                 colSpan={6}
               >
                 {searchRef.current?.value.length > 0 ? (
-                  <>There are 0 results for that search term!</>
+                  <span>There are 0 results for that search term!</span>
                 ) : (
-                  <>There are currently 0 ATIS online!</>
+                  <span>There are currently 0 ATIS online!</span>
                 )}
               </th>
             </tr>
@@ -105,7 +106,7 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
                   <td className="px-6 py-4 text-gray-200">{_atis.text_atis}</td>
                   <td className="px-6 py-4 text-gray-200">{_atis.name}</td>
                   <td className="px-6 py-4 text-gray-200">
-                    {_atis.logon_time}
+                    <Moment>{_atis.logon_time}</Moment>
                   </td>
                 </tr>
               ))}
