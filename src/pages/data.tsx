@@ -10,6 +10,7 @@ import PilotsTable from '@/components/_Data/Tables/PilotsTable';
 import PrefilesTable from '@/components/_Data/Tables/PrefilesTable';
 import Meta from '@/components/Meta';
 import StatCard from '@/components/StatCard';
+import useDataElapsed from '@/hooks/useDataElapsed';
 import useVatsimData from '@/hooks/useVatsimData';
 import Main from '@/layouts/Main';
 
@@ -28,6 +29,7 @@ const Data: NextPage<Props> = () => {
     isError,
   } = useVatsimData();
   const [selectedTab, setSelectedTab] = useState<string>('GENERAL');
+  const { elapsedTime } = useDataElapsed(general);
 
   return (
     <Main
@@ -67,6 +69,7 @@ const Data: NextPage<Props> = () => {
                     servers={servers}
                     pilots={pilots}
                   />
+                  <StatCard title="Elapsed Data Refresh" value={elapsedTime} />
                 </dl>
               </div>
             )}
