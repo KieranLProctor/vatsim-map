@@ -1,6 +1,8 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 
+import ConnectionsPerServerPieChart from '@/components/_Data/Charts/ConnectionsPerServerPieChart';
+import TopXAircraftPieChart from '@/components/_Data/Charts/TopXAircraftPieChart';
 import TabButtons from '@/components/_Data/TabButtons';
 import ATISTable from '@/components/_Data/Tables/ATISTable';
 import ControllersTable from '@/components/_Data/Tables/ControllersTable';
@@ -19,8 +21,9 @@ const Data: NextPage<Props> = () => {
     pilots,
     controllers,
     atis,
-    facilities,
+    servers,
     prefiles,
+    facilities,
     isLoading,
     isError,
   } = useVatsimData();
@@ -59,7 +62,11 @@ const Data: NextPage<Props> = () => {
                 </dl>
 
                 <dl className="mt-8 grid grid-cols-1 gap-5 tablet:grid-cols-3">
-                  <StatCard title="Aircraft Split" value={100} />
+                  <TopXAircraftPieChart pilots={pilots} amount={10} />
+                  <ConnectionsPerServerPieChart
+                    servers={servers}
+                    pilots={pilots}
+                  />
                 </dl>
               </div>
             )}

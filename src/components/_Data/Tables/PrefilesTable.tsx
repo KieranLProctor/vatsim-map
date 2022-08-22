@@ -80,9 +80,9 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
                 colSpan={6}
               >
                 {searchRef.current?.value.length > 0 ? (
-                  <>There are 0 results for that search term!</>
+                  <span>There are 0 results for that search term!</span>
                 ) : (
-                  <>There are currently 0 prefiles!</>
+                  <span>There are currently 0 prefiles!</span>
                 )}
               </th>
             </tr>

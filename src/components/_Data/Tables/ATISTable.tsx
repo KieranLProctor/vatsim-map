@@ -82,9 +82,9 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
                 colSpan={6}
               >
                 {searchRef.current?.value.length > 0 ? (
-                  <>There are 0 results for that search term!</>
+                  <span>There are 0 results for that search term!</span>
                 ) : (
-                  <>There are currently 0 ATIS online!</>
+                  <span>There are currently 0 ATIS online!</span>
                 )}
               </th>
             </tr>

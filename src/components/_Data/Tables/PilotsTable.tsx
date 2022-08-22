@@ -89,9 +89,9 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                 colSpan={9}
               >
                 {searchRef.current?.value.length > 0 ? (
-                  <>There are 0 results for that search term!</>
+                  <span>There are 0 results for that search term!</span>
                 ) : (
-                  <>There are currently 0 pilots online!</>
+                  <span>There are currently 0 pilots online!</span>
                 )}
               </th>
             </tr>
