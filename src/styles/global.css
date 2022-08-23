@@ -9,5 +9,11 @@
 .leaflet-container {
   width: 100%;
   /* height: calc(100vh - 76px - 56px); */
-  height: calc(100vh - 64px);
+  height: calc(100vh - 80px);
+}
+
+@media (min-width: 960px) {
+  .leaflet-container { 
+    height: calc(100vh - 64px);
+  }
 }
