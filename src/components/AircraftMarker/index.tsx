@@ -1,5 +1,6 @@
 import L from 'leaflet';
 import { useRef } from 'react';
+import { Tooltip } from 'react-leaflet';
 import { LeafletTrackingMarker } from 'react-leaflet-tracking-marker';
 
 import type Pilot from '@/interfaces/Pilot';
@@ -32,8 +33,16 @@ const getAircraftIcon = (aircraftType: string) => {
 
 const AircraftMarker: React.FC<Props> = ({ data }) => {
   // This is disabled as it is data coming from an api so we want to keep the same names.
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { latitude, longitude, heading, flight_plan } = data;
+  const {
+    callsign,
+    latitude,
+    longitude,
+    heading,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    flight_plan,
+    altitude,
+    groundspeed,
+  } = data;
   // let position: number[] = [latitude, longitude];
   const markerRef = useRef<any>(null);
 
@@ -91,7 +100,21 @@ const AircraftMarker: React.FC<Props> = ({ data }) => {
         previousPosition={[latitude, longitude]}
         duration={1}
         ref={markerRef}
-      />
+      >
+        <Tooltip direction="auto" offset={[5, 0]} className="tooltip-custom">
+          <div className="text-xs font-medium leading-3">
+            <span className="block">
+              {callsign} {flight_plan?.aircraft_faa}
+            </span>
+            <span className="block">
+              {altitude} {groundspeed}
+            </span>
+            <span className="block">
+              {flight_plan?.departure} {flight_plan?.arrival}
+            </span>
+          </div>
+        </Tooltip>
+      </LeafletTrackingMarker>
     </>
   );
 };
