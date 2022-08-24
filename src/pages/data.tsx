@@ -60,7 +60,10 @@ const Data: NextPage<Props> = () => {
                     title="Total Controllers"
                     value={controllers.length}
                   />
-                  <StatCard title="Total ATIS" value={atis.length} />
+                  <StatCard
+                    title="Elapsed Data Refresh"
+                    value={`${elapsedTime}s`}
+                  />
                 </dl>
 
                 <dl className="mt-8 grid grid-cols-1 gap-5 tablet:grid-cols-3">
@@ -69,7 +72,6 @@ const Data: NextPage<Props> = () => {
                     servers={servers}
                     pilots={pilots}
                   />
-                  <StatCard title="Elapsed Data Refresh" value={elapsedTime} />
                 </dl>
               </div>
             )}
