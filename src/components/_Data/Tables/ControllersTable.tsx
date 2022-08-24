@@ -10,13 +10,20 @@ interface Props {
   facilities: Facility[];
 }
 
+interface Options {
+  open: boolean;
+  showingOBS: boolean;
+}
+
 const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
   const [allControllers] = useState<Controller[]>(controllers);
   const [filteredControllers, setFilteredControllers] =
     useState<Controller[]>(allControllers);
   const searchRef = useRef<any>(null);
-  const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false);
-  const [showingOBS, setShowingOBS] = useState<boolean>(true);
+  const [options, setOptions] = useState<Options>({
+    open: false,
+    showingOBS: false,
+  });
 
   return (
     <div className="relative overflow-x-auto">
@@ -59,7 +66,7 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
               <button
                 type="button"
                 className="inline-flex w-full justify-center border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-200 focus:border-purple-500"
-                onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+                onClick={() => setOptions({ ...options, open: !options.open })}
               >
                 Options
                 <svg
@@ -80,7 +87,7 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
 
             <div
               className={`${
-                isOptionsOpen ? 'absolute' : 'hidden'
+                options.open ? 'absolute' : 'hidden'
               } right-0 mt-2 w-56 origin-top-right border border-zinc-600 bg-zinc-800`}
               role="menu"
               aria-orientation="vertical"
@@ -94,8 +101,13 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
                       type="checkbox"
                       id="showOBS"
                       className="h-4 w-4 border border-zinc-600 text-purple-800 focus:ring-purple-500"
-                      checked={showingOBS}
-                      onClick={() => setShowingOBS(!showingOBS)}
+                      checked={options.showingOBS}
+                      onClick={() =>
+                        setOptions({
+                          ...options,
+                          showingOBS: !options.showingOBS,
+                        })
+                      }
                     />
                   </div>
                   <div className="ml-3 text-sm">
@@ -152,7 +164,7 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
               {/* A bit hacky but it works. */}
               {filteredControllers
                 .filter((x: Controller) =>
-                  showingOBS
+                  options.showingOBS
                     ? facilities[x.facility]?.short !== 'C3L'
                     : facilities[x.facility]?.short !== 'OBS'
                 )

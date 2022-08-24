@@ -1,7 +1,8 @@
 export const AppConfig = {
-  site_name: 'NextJS Projects Boilerplate',
-  title: 'NextJS Projects Boilerplate',
+  site_name: 'Vatsim Map',
+  title: 'Vatsim Map',
   company: 'Gerenuk',
-  description: 'Starter code for your Nextjs Boilerplate with Tailwind CSS',
+  description:
+    'Online map to display flights in Vatsim along with various data and charts/graphs.',
   locale: 'en_GB',
 };
