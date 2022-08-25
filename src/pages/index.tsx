@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import Meta from '@/components/Meta';
 import useVatsimData from '@/hooks/useVatsimData';
 import Main from '@/layouts/Main';
+import { AppConfig } from '@/utils/AppConfig';
 
 interface Props {}
 
@@ -20,8 +21,8 @@ const Index: NextPage<Props> = () => {
     <Main
       meta={
         <Meta
-          title="Map | Vatsim Map"
-          description="Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
+          title={`Map | ${AppConfig.site_name}`}
+          description={AppConfig.description}
         />
       }
     >
