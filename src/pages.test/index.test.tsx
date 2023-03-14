@@ -7,7 +7,7 @@ import Index from '@/pages/index';
 
 describe('Index page', () => {
   describe('Render method', () => {
-    it('should have h1 tag', () => {
+    it('should have a navbar', () => {
       render(<Index />);
 
       const heading = screen.getByRole('heading', {

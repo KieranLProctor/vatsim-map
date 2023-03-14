@@ -38,7 +38,7 @@ const PrefilesTable: React.FC<Props> = ({ prefiles }) => {
           <input
             type="text"
             id="table-search"
-            className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-blue-500 focus:ring-blue-500 "
+            className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-purple-500"
             placeholder="Search prefiles..."
             ref={searchRef}
             onChange={(event) => {
