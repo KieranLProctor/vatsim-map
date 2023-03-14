@@ -40,7 +40,7 @@ const ServersTable: React.FC<Props> = ({ servers }) => {
             type="text"
             id="table-search"
             className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-purple-500"
-            placeholder="Search atis..."
+            placeholder="Search servers..."
             ref={searchRef}
             onChange={(event) => {
               const results = searchData(event, allServers);
