@@ -11,6 +11,8 @@ interface Props {
 }
 
 const Map: React.FC<Props> = ({ pilots }) => {
+  // const config = useContext<Config | null>(ConfigContext);
+
   return (
     <>
       <MapContainer center={[51.505, -0.09]} zoom={8} scrollWheelZoom={true}>
