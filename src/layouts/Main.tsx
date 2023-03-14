@@ -8,7 +8,7 @@ interface Props {
 }
 
 const Main: React.FC<Props> = (props) => (
-  <div className="w-full font-jetbrains text-gray-700 antialiased">
+  <div className="min-h-full w-full font-jetbrains text-gray-700 antialiased">
     {props.meta}
 
     <Navbar />
