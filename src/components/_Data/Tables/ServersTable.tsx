@@ -1,17 +1,18 @@
 import React, { useRef, useState } from 'react';
-import Moment from 'react-moment';
 
-import type Pilot from '@/interfaces/Pilot';
+import type Server from '@/interfaces/Server';
 import { searchData } from '@/utils/SearchData';
 
 interface Props {
-  pilots: Pilot[];
+  servers: Server[];
 }
 
-const PilotsTable: React.FC<Props> = ({ pilots }) => {
-  const [allPilots] = useState<Pilot[]>(pilots);
-  const [filteredPilots, setFilteredPilots] = useState<Pilot[]>(allPilots);
+const ServersTable: React.FC<Props> = ({ servers }) => {
+  const [allServers] = useState<Server[]>(servers);
+  const [filteredServers, setFilteredServers] = useState<Server[]>(allServers);
   const searchRef = useRef<any>(null);
+  // TODO: Add in button to toggle showing observers.
+  // const [showingObs, setShowingObs] = useState<boolean>(false);
 
   return (
     <div className="relative overflow-x-auto">
@@ -39,11 +40,11 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
             type="text"
             id="table-search"
             className="block w-80 border border-zinc-600 bg-zinc-800 p-2 pl-10 text-sm text-gray-400 hover:text-gray-200 focus:border-purple-500"
-            placeholder="Search pilots..."
+            placeholder="Search atis..."
             ref={searchRef}
             onChange={(event) => {
-              const results = searchData(event, allPilots);
-              setFilteredPilots(results);
+              const results = searchData(event, allServers);
+              setFilteredServers(results);
             }}
           />
         </div>
@@ -52,81 +53,59 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
         <thead className="border border-zinc-600 text-gray-200">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Callsign
+              Name
             </th>
             <th scope="col" className="px-6 py-3">
-              Aircraft
+              IP
             </th>
             <th scope="col" className="px-6 py-3">
-              Departure
+              Location
             </th>
             <th scope="col" className="px-6 py-3">
-              Arrival
+              Connections Allowed?
             </th>
             <th scope="col" className="px-6 py-3">
-              Altitude
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Speed
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Transponder
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Pilot
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Online For
+              Sweatbox?
             </th>
           </tr>
         </thead>
         <tbody>
-          {filteredPilots.length === 0 ? (
+          {filteredServers.length === 0 ? (
             <tr className="border-b border-zinc-600 bg-zinc-800">
               <th
                 scope="row"
                 className="whitespace-nowrap px-6 py-4 text-center font-medium text-gray-200"
-                colSpan={9}
+                colSpan={6}
               >
                 {searchRef.current?.value.length > 0 ? (
                   <span>There are 0 results for that search term!</span>
                 ) : (
-                  <span>There are currently 0 pilots online!</span>
+                  <span>There are currently 0 Servers online!</span>
                 )}
               </th>
             </tr>
           ) : (
             <>
-              {filteredPilots.map((pilot: Pilot) => (
+              {filteredServers.map((server: Server) => (
                 <tr
                   className="border border-zinc-600 bg-zinc-800"
-                  key={`${pilot.callsign}_${pilot.cid}`}
+                  key={server.hostname_or_ip}
                 >
                   <th
                     scope="row"
                     className="whitespace-nowrap px-6 py-4 text-gray-200"
                   >
-                    {pilot.callsign}
+                    {server.name}
                   </th>
                   <td className="px-6 py-4 text-gray-200">
-                    {pilot.flight_plan?.aircraft_faa}
+                    {server.hostname_or_ip}
+                  </td>
+                  <td className="px-6 py-4 text-gray-200">{server.location}</td>
+                  <td className="px-6 py-4 text-gray-200">
+                    {server.client_connections_allowed ? 'Yes' : 'No'}
                   </td>
                   <td className="px-6 py-4 text-gray-200">
-                    {pilot.flight_plan?.departure}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.flight_plan?.arrival}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">{pilot.altitude}</td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.groundspeed}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.transponder}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">{pilot.name}</td>
-                  <td className="px-6 py-4 text-gray-200">
-                    <Moment durationFromNow>{pilot.logon_time}</Moment>
+                    {server.is_sweatbox ? 'Yes' : 'No'}
                   </td>
                 </tr>
               ))}
@@ -138,4 +117,4 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
   );
 };
 
-export default PilotsTable;
+export default ServersTable;

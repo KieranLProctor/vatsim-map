@@ -9,6 +9,7 @@ import ATISTable from '@/components/_Data/Tables/ATISTable';
 import ControllersTable from '@/components/_Data/Tables/ControllersTable';
 import PilotsTable from '@/components/_Data/Tables/PilotsTable';
 import PrefilesTable from '@/components/_Data/Tables/PrefilesTable';
+import ServersTable from '@/components/_Data/Tables/ServersTable';
 import Meta from '@/components/Meta';
 import StatCard from '@/components/StatCard';
 import useDataElapsed from '@/hooks/useDataElapsed';
@@ -27,6 +28,7 @@ const Data: NextPage<Props> = () => {
     servers,
     prefiles,
     facilities,
+    ratings,
     isLoading,
     isError,
   } = useVatsimData();
@@ -85,6 +87,7 @@ const Data: NextPage<Props> = () => {
               <ControllersTable
                 controllers={controllers}
                 facilities={facilities}
+                ratings={ratings}
               />
             )}
 
@@ -93,6 +96,8 @@ const Data: NextPage<Props> = () => {
             {selectedTab === 'PREFILES' && (
               <PrefilesTable prefiles={prefiles} />
             )}
+
+            {selectedTab === 'SERVERS' && <ServersTable servers={servers} />}
           </>
         )}
       </div>

@@ -69,7 +69,7 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
               ATIS
             </th>
             <th scope="col" className="px-6 py-3">
-              Logon Time
+              Online For
             </th>
           </tr>
         </thead>
@@ -106,7 +106,7 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
                   <td className="px-6 py-4 text-gray-200">{_atis.text_atis}</td>
                   <td className="px-6 py-4 text-gray-200">{_atis.name}</td>
                   <td className="px-6 py-4 text-gray-200">
-                    <Moment>{_atis.logon_time}</Moment>
+                    <Moment durationFromNow>{_atis.logon_time}</Moment>
                   </td>
                 </tr>
               ))}
