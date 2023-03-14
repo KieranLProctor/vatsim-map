@@ -14,6 +14,7 @@ import StatCard from '@/components/StatCard';
 import useDataElapsed from '@/hooks/useDataElapsed';
 import useVatsimData from '@/hooks/useVatsimData';
 import Main from '@/layouts/Main';
+import { AppConfig } from '@/utils/AppConfig';
 
 interface Props {}
 
@@ -36,8 +37,8 @@ const Data: NextPage<Props> = () => {
     <Main
       meta={
         <Meta
-          title="Data | Vatsim Map"
-          description="Next js Boilerplate is the perfect starter code for your project. Build your React application with the Next.js framework."
+          title={`Data | ${AppConfig.site_name}`}
+          description={AppConfig.description}
         />
       }
     >
