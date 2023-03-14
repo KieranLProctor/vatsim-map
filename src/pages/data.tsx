@@ -27,6 +27,7 @@ const Data: NextPage<Props> = () => {
     servers,
     prefiles,
     facilities,
+    ratings,
     isLoading,
     isError,
   } = useVatsimData();
@@ -85,6 +86,7 @@ const Data: NextPage<Props> = () => {
               <ControllersTable
                 controllers={controllers}
                 facilities={facilities}
+                ratings={ratings}
               />
             )}
 

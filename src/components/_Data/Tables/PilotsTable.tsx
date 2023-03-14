@@ -76,7 +76,7 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
               Pilot
             </th>
             <th scope="col" className="px-6 py-3">
-              Logon Time
+              Online For
             </th>
           </tr>
         </thead>
@@ -126,7 +126,7 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                   </td>
                   <td className="px-6 py-4 text-gray-200">{pilot.name}</td>
                   <td className="px-6 py-4 text-gray-200">
-                    <Moment>{pilot.logon_time}</Moment>
+                    <Moment durationFromNow>{pilot.logon_time}</Moment>
                   </td>
                 </tr>
               ))}

@@ -3,11 +3,13 @@ import Moment from 'react-moment';
 
 import type Controller from '@/interfaces/Controller';
 import type Facility from '@/interfaces/Facility';
+import type Rating from '@/interfaces/Rating';
 import { searchData } from '@/utils/SearchData';
 
 interface Props {
   controllers: Controller[];
   facilities: Facility[];
+  ratings: Rating[];
 }
 
 interface Options {
@@ -15,7 +17,11 @@ interface Options {
   showingOBS: boolean;
 }
 
-const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
+const ControllersTable: React.FC<Props> = ({
+  controllers,
+  facilities,
+  ratings,
+}) => {
   const [allControllers] = useState<Controller[]>(controllers);
   const [filteredControllers, setFilteredControllers] =
     useState<Controller[]>(allControllers);
@@ -140,7 +146,10 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
               Controller
             </th>
             <th scope="col" className="px-6 py-3">
-              Logon Time
+              Rating
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Online For
             </th>
           </tr>
         </thead>
@@ -189,7 +198,14 @@ const ControllersTable: React.FC<Props> = ({ controllers, facilities }) => {
                       {controller.name}
                     </td>
                     <td className="px-6 py-4 text-gray-200">
-                      <Moment>{controller.logon_time}</Moment>
+                      {
+                        ratings.filter(
+                          (r: Rating) => r.id === controller.rating
+                        )[0]?.short
+                      }
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      <Moment durationFromNow>{controller.logon_time}</Moment>
                     </td>
                   </tr>
                 ))}
