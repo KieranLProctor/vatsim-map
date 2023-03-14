@@ -1,16 +1,15 @@
 import React, { useRef, useState } from 'react';
-import Moment from 'react-moment';
 
-import type ATIS from '@/interfaces/ATIS';
+import type Server from '@/interfaces/Server';
 import { searchData } from '@/utils/SearchData';
 
 interface Props {
-  atis: ATIS[];
+  servers: Server[];
 }
 
-const ATISTable: React.FC<Props> = ({ atis }) => {
-  const [allATIS] = useState<ATIS[]>(atis);
-  const [filteredATIS, setFilteredATIS] = useState<ATIS[]>(allATIS);
+const ServersTable: React.FC<Props> = ({ servers }) => {
+  const [allServers] = useState<Server[]>(servers);
+  const [filteredServers, setFilteredServers] = useState<Server[]>(allServers);
   const searchRef = useRef<any>(null);
   // TODO: Add in button to toggle showing observers.
   // const [showingObs, setShowingObs] = useState<boolean>(false);
@@ -44,8 +43,8 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
             placeholder="Search atis..."
             ref={searchRef}
             onChange={(event) => {
-              const results = searchData(event, allATIS);
-              setFilteredATIS(results);
+              const results = searchData(event, allServers);
+              setFilteredServers(results);
             }}
           />
         </div>
@@ -54,27 +53,24 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
         <thead className="border border-zinc-600 text-gray-200">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Callsign
+              Name
             </th>
             <th scope="col" className="px-6 py-3">
-              Frequency
+              IP
             </th>
             <th scope="col" className="px-6 py-3">
-              Code
+              Location
             </th>
             <th scope="col" className="px-6 py-3">
-              Text
+              Connections Allowed?
             </th>
             <th scope="col" className="px-6 py-3">
-              ATIS
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Online For
+              Sweatbox?
             </th>
           </tr>
         </thead>
         <tbody>
-          {filteredATIS.length === 0 ? (
+          {filteredServers.length === 0 ? (
             <tr className="border-b border-zinc-600 bg-zinc-800">
               <th
                 scope="row"
@@ -84,29 +80,32 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
                 {searchRef.current?.value.length > 0 ? (
                   <span>There are 0 results for that search term!</span>
                 ) : (
-                  <span>There are currently 0 ATIS online!</span>
+                  <span>There are currently 0 Servers online!</span>
                 )}
               </th>
             </tr>
           ) : (
             <>
-              {filteredATIS.map((_atis: ATIS) => (
+              {filteredServers.map((server: Server) => (
                 <tr
                   className="border border-zinc-600 bg-zinc-800"
-                  key={`${_atis.callsign}_${_atis.cid}`}
+                  key={server.hostname_or_ip}
                 >
                   <th
                     scope="row"
                     className="whitespace-nowrap px-6 py-4 text-gray-200"
                   >
-                    {_atis.callsign}
+                    {server.name}
                   </th>
-                  <td className="px-6 py-4 text-gray-200">{_atis.frequency}</td>
-                  <td className="px-6 py-4 text-gray-200">{_atis.atis_code}</td>
-                  <td className="px-6 py-4 text-gray-200">{_atis.text_atis}</td>
-                  <td className="px-6 py-4 text-gray-200">{_atis.name}</td>
                   <td className="px-6 py-4 text-gray-200">
-                    <Moment durationFromNow>{_atis.logon_time}</Moment>
+                    {server.hostname_or_ip}
+                  </td>
+                  <td className="px-6 py-4 text-gray-200">{server.location}</td>
+                  <td className="px-6 py-4 text-gray-200">
+                    {server.client_connections_allowed ? 'Yes' : 'No'}
+                  </td>
+                  <td className="px-6 py-4 text-gray-200">
+                    {server.is_sweatbox ? 'Yes' : 'No'}
                   </td>
                 </tr>
               ))}
@@ -118,4 +117,4 @@ const ATISTable: React.FC<Props> = ({ atis }) => {
   );
 };
 
-export default ATISTable;
+export default ServersTable;
