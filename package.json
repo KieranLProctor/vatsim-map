@@ -1,8 +1,8 @@
 {
   "name": "vatsim-map",
   "author": {
-    "name": "Kieran Proctor",
-    "url": "https://kieranproctor.com"
+    "name": "Gerenuk LTD",
+    "url": "https://vatsim.geren.uk.com"
   },
   "version": "1.1.0",
   "scripts": {
@@ -19,6 +19,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.4",
+    "@radix-ui/react-icons": "^1.2.0",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@tailwindcss/forms": "^0.5.2",
     "axios": "^0.27.2",
