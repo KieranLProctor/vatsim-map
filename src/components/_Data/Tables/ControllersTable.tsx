@@ -23,7 +23,7 @@ const ControllersTable: React.FC<Props> = ({
   const [filteredControllers, setFilteredControllers] =
     useState<Controller[]>(allControllers);
   const searchRef = useRef<any>(null);
-  const [showingOBS, setShowingOBS] = useState(false);
+  const [showingOBS, setShowingOBS] = useState<boolean>(false);
 
   return (
     <div className="relative overflow-x-auto">
@@ -70,11 +70,11 @@ const ControllersTable: React.FC<Props> = ({
               </DropdownMenuPrimitive.Trigger>
               <DropdownMenuPrimitive.Portal>
                 <DropdownMenuPrimitive.Content
-                  className="mt-2 min-w-min border border-zinc-600 bg-zinc-800 px-4 py-2 font-jetbrains text-gray-400 hover:text-gray-200"
+                  className="mt-2 min-w-min border border-zinc-600 bg-zinc-800 px-4 py-2 font-jetbrains"
                   align="end"
                 >
                   <DropdownMenuPrimitive.CheckboxItem
-                    className="group relative flex h-[25px] select-none items-center pl-6 text-sm font-medium outline-none"
+                    className="group relative flex h-[25px] select-none items-center pl-6 text-sm font-medium text-gray-400 outline-none hover:text-gray-200"
                     checked={showingOBS}
                     onCheckedChange={setShowingOBS}
                   >

@@ -1,3 +1,5 @@
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import { CheckIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import React, { useRef, useState } from 'react';
 import Moment from 'react-moment';
 
@@ -12,10 +14,12 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
   const [allPilots] = useState<Pilot[]>(pilots);
   const [filteredPilots, setFilteredPilots] = useState<Pilot[]>(allPilots);
   const searchRef = useRef<any>(null);
+  const [showingOnGround, setShowingOnGround] = useState<boolean>(true);
+  const [showingInAir, setShowingInAir] = useState<boolean>(true);
 
   return (
     <div className="relative overflow-x-auto">
-      <div className="pb-4">
+      <div className="flex items-center justify-between pb-4">
         <label htmlFor="table-search" className="sr-only">
           Search
         </label>
@@ -46,6 +50,46 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
               setFilteredPilots(results);
             }}
           />
+        </div>
+        <div className="mt-6">
+          <div className="relative inline-block text-left">
+            <DropdownMenuPrimitive.Root>
+              <DropdownMenuPrimitive.Trigger className="inline-flex w-full items-center justify-center border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-200 focus:border-purple-500">
+                Options
+                <span className="ml-2">
+                  <ChevronDownIcon />
+                </span>
+              </DropdownMenuPrimitive.Trigger>
+              <DropdownMenuPrimitive.Portal>
+                <DropdownMenuPrimitive.Content
+                  className="mt-2 min-w-min border border-zinc-600 bg-zinc-800 px-4 py-2 font-jetbrains"
+                  align="end"
+                >
+                  <DropdownMenuPrimitive.CheckboxItem
+                    className="group relative flex h-[25px] select-none items-center pl-6 text-sm font-medium text-gray-400 outline-none hover:text-gray-200"
+                    checked={showingOnGround}
+                    onCheckedChange={setShowingOnGround}
+                  >
+                    <DropdownMenuPrimitive.ItemIndicator className="absolute left-0 inline-flex items-center justify-center text-white">
+                      <CheckIcon />
+                    </DropdownMenuPrimitive.ItemIndicator>
+                    Show On Ground
+                  </DropdownMenuPrimitive.CheckboxItem>
+
+                  <DropdownMenuPrimitive.CheckboxItem
+                    className="group relative flex h-[25px] select-none items-center pl-6 text-sm font-medium text-gray-400 outline-none hover:text-gray-200"
+                    checked={showingInAir}
+                    onCheckedChange={setShowingInAir}
+                  >
+                    <DropdownMenuPrimitive.ItemIndicator className="absolute left-0 inline-flex items-center justify-center text-white">
+                      <CheckIcon />
+                    </DropdownMenuPrimitive.ItemIndicator>
+                    Show In Air
+                  </DropdownMenuPrimitive.CheckboxItem>
+                </DropdownMenuPrimitive.Content>
+              </DropdownMenuPrimitive.Portal>
+            </DropdownMenuPrimitive.Root>
+          </div>
         </div>
       </div>
       <table className="w-full border border-zinc-600 bg-zinc-800 text-left text-sm text-gray-400">
@@ -97,39 +141,45 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
             </tr>
           ) : (
             <>
-              {filteredPilots.map((pilot: Pilot) => (
-                <tr
-                  className="border border-zinc-600 bg-zinc-800"
-                  key={`${pilot.callsign}_${pilot.cid}`}
-                >
-                  <th
-                    scope="row"
-                    className="whitespace-nowrap px-6 py-4 text-gray-200"
+              {filteredPilots
+                .filter((x: Pilot) =>
+                  showingOnGround ? x : x.altitude >= 100 && x.groundspeed > 0
+                )
+                .map((pilot: Pilot) => (
+                  <tr
+                    className="border border-zinc-600 bg-zinc-800"
+                    key={`${pilot.callsign}_${pilot.cid}`}
                   >
-                    {pilot.callsign}
-                  </th>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.flight_plan?.aircraft_faa}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.flight_plan?.departure}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.flight_plan?.arrival}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">{pilot.altitude}</td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.groundspeed}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">
-                    {pilot.transponder}
-                  </td>
-                  <td className="px-6 py-4 text-gray-200">{pilot.name}</td>
-                  <td className="px-6 py-4 text-gray-200">
-                    <Moment durationFromNow>{pilot.logon_time}</Moment>
-                  </td>
-                </tr>
-              ))}
+                    <th
+                      scope="row"
+                      className="whitespace-nowrap px-6 py-4 text-gray-200"
+                    >
+                      {pilot.callsign}
+                    </th>
+                    <td className="px-6 py-4 text-gray-200">
+                      {pilot.flight_plan?.aircraft_faa}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      {pilot.flight_plan?.departure}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      {pilot.flight_plan?.arrival}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      {pilot.altitude}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      {pilot.groundspeed}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">
+                      {pilot.transponder}
+                    </td>
+                    <td className="px-6 py-4 text-gray-200">{pilot.name}</td>
+                    <td className="px-6 py-4 text-gray-200">
+                      <Moment durationFromNow>{pilot.logon_time}</Moment>
+                    </td>
+                  </tr>
+                ))}
             </>
           )}
         </tbody>
