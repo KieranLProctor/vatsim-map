@@ -8,12 +8,18 @@ import React, { useRef, useState } from 'react';
 import Moment from 'react-moment';
 
 import type Pilot from '@/interfaces/Pilot';
-import { convertKtsToKmh } from '@/utils/ConvertData';
+import { convertFeetToMeter, convertKtsToKmh } from '@/utils/ConvertData';
 import { searchData } from '@/utils/SearchData';
 
 interface Props {
   pilots: Pilot[];
 }
+
+const renderAltitude = (altitude: number, type: string) => {
+  if (type === 'meters') return convertFeetToMeter(altitude);
+
+  return altitude;
+};
 
 const renderSpeed = (speed: number, type: string) => {
   let typedSpeed = speed;
@@ -36,6 +42,7 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
   const searchRef = useRef<any>(null);
   const [showingOnGround, setShowingOnGround] = useState<boolean>(true);
   const [showingInAir, setShowingInAir] = useState<boolean>(true);
+  const [altitudeType, setAltitudeType] = useState<string>('feet');
   const [speedType, setSpeedType] = useState<string>('kts');
 
   return (
@@ -107,6 +114,35 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                     </DropdownMenuPrimitive.ItemIndicator>
                     Show In Air
                   </DropdownMenuPrimitive.CheckboxItem>
+
+                  <DropdownMenuPrimitive.Separator className="m-2 h-[1px] bg-zinc-600" />
+
+                  <DropdownMenuPrimitive.Label className="pl-[25px] text-xs leading-[25px] text-gray-400">
+                    Altitude Type
+                  </DropdownMenuPrimitive.Label>
+                  <DropdownMenuPrimitive.RadioGroup
+                    value={altitudeType}
+                    onValueChange={setAltitudeType}
+                  >
+                    <DropdownMenuPrimitive.RadioItem
+                      className="relative flex h-[25px] select-none items-center rounded-[3px] pl-6 text-sm leading-none text-gray-400 outline-none hover:text-gray-200"
+                      value="feet"
+                    >
+                      <DropdownMenuPrimitive.ItemIndicator className="absolute left-0 inline-flex items-center justify-center text-white">
+                        <DotFilledIcon />
+                      </DropdownMenuPrimitive.ItemIndicator>
+                      Feet
+                    </DropdownMenuPrimitive.RadioItem>
+                    <DropdownMenuPrimitive.RadioItem
+                      className="relative flex h-[25px] select-none items-center rounded-[3px] pl-6 text-sm leading-none text-gray-400 outline-none hover:text-gray-200"
+                      value="meters"
+                    >
+                      <DropdownMenuPrimitive.ItemIndicator className="absolute left-0 inline-flex items-center justify-center text-white">
+                        <DotFilledIcon />
+                      </DropdownMenuPrimitive.ItemIndicator>
+                      Meters
+                    </DropdownMenuPrimitive.RadioItem>
+                  </DropdownMenuPrimitive.RadioGroup>
 
                   <DropdownMenuPrimitive.Separator className="m-2 h-[1px] bg-zinc-600" />
 
@@ -225,7 +261,7 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
                       {pilot.flight_plan?.arrival}
                     </td>
                     <td className="px-6 py-4 text-gray-200">
-                      {pilot.altitude}
+                      {renderAltitude(pilot.altitude, altitudeType)}
                     </td>
                     <td className="px-6 py-4 text-gray-200">
                       {renderSpeed(pilot.groundspeed, speedType)}
