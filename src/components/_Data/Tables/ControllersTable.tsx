@@ -1,3 +1,5 @@
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import { CheckIcon, ChevronDownIcon } from '@radix-ui/react-icons';
 import React, { useRef, useState } from 'react';
 import Moment from 'react-moment';
 
@@ -12,11 +14,6 @@ interface Props {
   ratings: Rating[];
 }
 
-interface Options {
-  open: boolean;
-  showingOBS: boolean;
-}
-
 const ControllersTable: React.FC<Props> = ({
   controllers,
   facilities,
@@ -26,10 +23,7 @@ const ControllersTable: React.FC<Props> = ({
   const [filteredControllers, setFilteredControllers] =
     useState<Controller[]>(allControllers);
   const searchRef = useRef<any>(null);
-  const [options, setOptions] = useState<Options>({
-    open: false,
-    showingOBS: false,
-  });
+  const [showingOBS, setShowingOBS] = useState<boolean>(false);
 
   return (
     <div className="relative overflow-x-auto">
@@ -65,68 +59,33 @@ const ControllersTable: React.FC<Props> = ({
             }}
           />
         </div>
-
         <div className="mt-6">
           <div className="relative inline-block text-left">
-            <div>
-              <button
-                type="button"
-                className="inline-flex w-full justify-center border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-200 focus:border-purple-500"
-                onClick={() => setOptions({ ...options, open: !options.open })}
-              >
+            <DropdownMenuPrimitive.Root>
+              <DropdownMenuPrimitive.Trigger className="inline-flex w-full items-center justify-center border border-zinc-600 bg-zinc-800 px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-200 focus:border-purple-500">
                 Options
-                <svg
-                  className="ml-2 -mr-1 h-5 w-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
+                <span className="ml-2">
+                  <ChevronDownIcon />
+                </span>
+              </DropdownMenuPrimitive.Trigger>
+              <DropdownMenuPrimitive.Portal>
+                <DropdownMenuPrimitive.Content
+                  className="mt-2 min-w-min border border-zinc-600 bg-zinc-800 px-4 py-2 font-jetbrains"
+                  align="end"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </div>
-
-            <div
-              className={`${
-                options.open ? 'absolute' : 'hidden'
-              } right-0 mt-2 w-56 origin-top-right border border-zinc-600 bg-zinc-800`}
-              role="menu"
-              aria-orientation="vertical"
-              aria-labelledby="menu-button"
-              tabIndex={-1}
-            >
-              <div className="py-1" role="none">
-                <div className="relative flex items-start px-4 py-2">
-                  <div className="flex h-5 items-center">
-                    <input
-                      type="checkbox"
-                      id="showOBS"
-                      className="h-4 w-4 border border-zinc-600 text-purple-800 focus:ring-purple-500"
-                      checked={options.showingOBS}
-                      onClick={() =>
-                        setOptions({
-                          ...options,
-                          showingOBS: !options.showingOBS,
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      htmlFor="showOBS"
-                      className="font-medium text-gray-200"
-                    >
-                      Show Observers
-                    </label>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  <DropdownMenuPrimitive.CheckboxItem
+                    className="group relative flex h-[25px] select-none items-center pl-6 text-sm font-medium text-gray-400 outline-none hover:text-gray-200"
+                    checked={showingOBS}
+                    onCheckedChange={setShowingOBS}
+                  >
+                    <DropdownMenuPrimitive.ItemIndicator className="absolute left-0 inline-flex items-center justify-center text-white">
+                      <CheckIcon />
+                    </DropdownMenuPrimitive.ItemIndicator>
+                    Show Observers
+                  </DropdownMenuPrimitive.CheckboxItem>
+                </DropdownMenuPrimitive.Content>
+              </DropdownMenuPrimitive.Portal>
+            </DropdownMenuPrimitive.Root>
           </div>
         </div>
       </div>
@@ -173,7 +132,7 @@ const ControllersTable: React.FC<Props> = ({
               {/* A bit hacky but it works. */}
               {filteredControllers
                 .filter((x: Controller) =>
-                  options.showingOBS
+                  showingOBS
                     ? facilities[x.facility]?.short !== 'C3L'
                     : facilities[x.facility]?.short !== 'OBS'
                 )
