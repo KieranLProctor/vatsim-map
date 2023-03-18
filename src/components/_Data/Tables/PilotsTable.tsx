@@ -237,8 +237,10 @@ const PilotsTable: React.FC<Props> = ({ pilots }) => {
           ) : (
             <>
               {filteredPilots
-                .filter((x: Pilot) =>
-                  showingOnGround ? x : x.altitude >= 100 && x.groundspeed > 0
+                .filter(
+                  (x: Pilot) =>
+                    (showingOnGround ? x : x.altitude >= 100) &&
+                    (showingInAir ? x : x.altitude <= 100)
                 )
                 .map((pilot: Pilot) => (
                   <tr
