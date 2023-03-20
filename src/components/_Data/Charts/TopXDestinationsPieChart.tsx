@@ -11,7 +11,7 @@ interface Props {
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const TopXDestinationPieChart: React.FC<Props> = ({ pilots, amount }) => {
+const TopXDestinationsPieChart: React.FC<Props> = ({ pilots, amount }) => {
   const destinations = Array.from(
     new Set(pilots.map((pilot: Pilot) => pilot.flight_plan?.arrival))
   );
@@ -28,7 +28,7 @@ const TopXDestinationPieChart: React.FC<Props> = ({ pilots, amount }) => {
   // Sort the array by highest amount first.
   destinationsCount.sort((a: any, b: any) => b.count - a.count);
 
-  // Select top 10 to be displayed in the chart.
+  // Select top X to be displayed in the chart.
   const data = {
     labels: Array.from(destinationsCount.map((x: any) => x.aircraft)).slice(
       0,
@@ -65,7 +65,7 @@ const TopXDestinationPieChart: React.FC<Props> = ({ pilots, amount }) => {
   return (
     <div className="overflow-hidden border border-zinc-600 bg-zinc-800 px-4 py-5 tablet:p-6">
       <dt className="truncate text-sm font-medium text-gray-400">
-        Top {amount} Destination
+        Top {amount} Destinations
       </dt>
       <dd className="mt-1 text-3xl font-semibold tracking-tight text-gray-200">
         <Pie data={data} />
@@ -74,4 +74,4 @@ const TopXDestinationPieChart: React.FC<Props> = ({ pilots, amount }) => {
   );
 };
 
-export default TopXDestinationPieChart;
+export default TopXDestinationsPieChart;

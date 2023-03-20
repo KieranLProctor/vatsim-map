@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import ConnectionsPerServerPieChart from '@/components/_Data/Charts/ConnectionsPerServerPieChart';
 import TopXAircraftPieChart from '@/components/_Data/Charts/TopXAircraftPieChart';
-import TopXDestinationPieChart from '@/components/_Data/Charts/TopXDestinationPieChart';
+import TopXDestinationsPieChart from '@/components/_Data/Charts/TopXDestinationsPieChart';
 import TabButtons from '@/components/_Data/TabButtons';
 import ATISTable from '@/components/_Data/Tables/ATISTable';
 import ControllersTable from '@/components/_Data/Tables/ControllersTable';
@@ -72,7 +72,7 @@ const Data: NextPage<Props> = () => {
 
                 <dl className="mt-8 grid grid-cols-1 gap-5 tablet:grid-cols-3">
                   <TopXAircraftPieChart pilots={pilots} amount={10} />
-                  <TopXDestinationPieChart pilots={pilots} amount={10} />
+                  <TopXDestinationsPieChart pilots={pilots} amount={10} />
                   <ConnectionsPerServerPieChart
                     servers={servers}
                     pilots={pilots}
