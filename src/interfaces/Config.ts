@@ -1,4 +1,4 @@
 export default interface Config {
-  showAtc: boolean;
-  showBoundaries: boolean;
+  showAtc: string | boolean;
+  showBoundaries: string | boolean;
 }
