@@ -5,17 +5,13 @@ interface Props {}
 
 const Navbar: React.FC<Props> = () => {
   return (
-    <div className="z-10 flex-none bg-black py-6">
+    <nav className="z-10 flex-none bg-black py-4">
       <div className="mx-auto flex max-w-site items-stretch px-8 leading-loose tablet:px-16 tablet:leading-none">
-        <a
-          className="block h-8 w-20 shrink-0 tablet:h-auto tablet:w-44"
-          href="/"
-          title="Home"
-        >
-          <span className="h-full w-auto">
-            <img src="/assets/svgs/logo.svg" alt="Logo" />
-          </span>
-        </a>
+        <div className="flex shrink-0 items-center">
+          <a className="block h-8 w-auto" href="/" title="Home">
+            <img src="/assets/images/logo.png" alt="Logo" />
+          </a>
+        </div>
         <div className="col-gap-8 row-gap-6 ml-auto grid grid-cols-1 items-start justify-end justify-items-end">
           <nav className="flex tablet:row-start-2">
             <ul className="grid grid-flow-col justify-between gap-10">
@@ -40,7 +36,7 @@ const Navbar: React.FC<Props> = () => {
           </nav>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

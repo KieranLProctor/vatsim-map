@@ -1,9 +1,10 @@
 import L from 'leaflet';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Tooltip } from 'react-leaflet';
 import { LeafletTrackingMarker } from 'react-leaflet-tracking-marker';
 
 import type Pilot from '@/interfaces/Pilot';
+import { calculatePositionAtDistance } from '@/utils/CalculatePosition';
 
 interface Props {
   data: Pilot;
@@ -46,22 +47,23 @@ const AircraftMarker: React.FC<Props> = ({ data }) => {
   const markerRef = useRef<any>(null);
 
   // TODO: This doesnt provide the correct coords :(.
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     const [lat, lon] = calculatePositionAtDistance(
-  //       latitude,
-  //       longitude,
-  //       heading,
-  //       groundspeed,
-  //       2
-  //     );
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const marker = markerRef.current;
+      const markerCoords = marker.getLatLng();
+      const [lat, lon] = calculatePositionAtDistance(
+        markerCoords.lat,
+        markerCoords.lng,
+        heading,
+        groundspeed,
+        4
+      );
 
-  //     const marker = markerRef.current;
-  //     marker?.setLatLng([lat, lon]);
-  //   }, 2000);
+      marker?.setLatLng([lat, lon]);
+    }, 2000);
 
-  //   return () => clearInterval(interval);
-  // }, []);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <>

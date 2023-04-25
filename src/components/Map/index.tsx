@@ -15,14 +15,21 @@ const Map: React.FC<Props> = ({ pilots }) => {
 
   return (
     <>
-      <MapContainer center={[51.505, -0.09]} zoom={8} scrollWheelZoom={true}>
+      <MapContainer
+        center={[51.505, -0.09]}
+        zoom={8}
+        scrollWheelZoom={true}
+        zoomControl={false}
+      >
         {pilots.length > 0
-          ? pilots.map((pilot: Pilot) => (
-              <AircraftMarker
-                key={`${pilot.callsign}_${pilot.cid}`}
-                data={pilot}
-              />
-            ))
+          ? pilots
+              .slice(2, 3)
+              .map((pilot: Pilot) => (
+                <AircraftMarker
+                  key={`${pilot.callsign}_${pilot.cid}`}
+                  data={pilot}
+                />
+              ))
           : null}
 
         <TileLayer
