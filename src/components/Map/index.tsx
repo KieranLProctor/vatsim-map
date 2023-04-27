@@ -4,6 +4,8 @@ import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import AircraftMarker from '@/components/AircraftMarker';
+// import { ConfigContext } from '@/context/ConfigContext';
+// import type Config from '@/interfaces/Config';
 import type Pilot from '@/interfaces/Pilot';
 
 interface Props {
